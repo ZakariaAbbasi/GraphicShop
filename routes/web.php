@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Category;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,8 +19,6 @@ Route::get('/', function () {
 });
 
 
-Route::get('add/category', function () {
-    $catFind = Category::find(7);
-    dump($catFind);
-
+Route::get('products/all', function () {
+    return view('frontend.products.all');
 });
