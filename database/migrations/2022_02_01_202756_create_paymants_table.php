@@ -10,6 +10,8 @@ class CreatePaymantsTable extends Migration
      * Run the migrations.
      *
      * @return void
+     *  upمتود  
+     *شامل تمام تغییرات یا ستون های جدیدی است که به محض اجرا کردن مایگریشین روی دیتابیس اعمال میشود. 
      */
     public function up()
     {
