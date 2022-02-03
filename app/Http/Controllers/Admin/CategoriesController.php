@@ -11,7 +11,7 @@ class CategoriesController extends Controller
 {
     public function all()
     {
-        $allCategories = Category::all();
+        $allCategories = Category::paginate(1);
         return view('admin.categories.all', compact('allCategories'));
     }
 
