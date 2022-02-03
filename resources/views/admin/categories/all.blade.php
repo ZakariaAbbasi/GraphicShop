@@ -25,6 +25,7 @@
         <!-- Main content -->
         <div class="content">
             <div class="container-fluid">
+                @include('errors.message')
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -45,6 +46,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="table table-striped table-valign-middle mb-0">
+                               
                                 <table class="table table-hover mb-0">
                                     <tbody>
                                         <tr>
@@ -63,10 +65,15 @@
                                                 <td>{{ $category->title }}</td>
                                                 <td>{{ $category->created_at }}</td>
                                                 <td>
-                                                    <a href="#" class="btn btn-default btn-icons"><i
+                                                    <a href="{{route('admin.categories.edit', $category->id)}}" class="btn btn-default btn-icons"><i
                                                             class="fa fa-edit"></i></a>
-                                                    <a href="#" class="btn btn-default btn-icons"><i
-                                                            class="fa fa-trash"></i></a>
+
+                                                    <form action="{{ route('admin.categories.delete', $category->id) }}" method="post" class="d-inline">
+                                                        @csrf
+                                                        @method('delete')
+
+                                                        <button class="btn btn-default btn-icons" type="submit"><i class="fa fa-trash"></i></button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -77,7 +84,7 @@
                         </div>
                         <!-- /.card -->
                         <div class="d-flex justify-content-center">
-                            {{$allCategories->links()}}
+                            {{ $allCategories->links() }}
 
                             </ul>
                         </div>
