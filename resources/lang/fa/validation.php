@@ -135,7 +135,14 @@ return [
     ],
     'attributes' => [
         'title'    => 'عنوان',
-        'slug'    => 'نامک'
+        'slug'    => 'نامک',
+        'category_id' => 'دسته بندی',
+        'price'=> 'قیمت',
+        'thumbnail_url' => 'تصویر شاخص',
+        'demo_url' => 'تصویرمحصول',
+        'source_url' => 'تصویر اصلی محصول',
+        'description' => 'توضیحات'
+
     ],
 
 ];

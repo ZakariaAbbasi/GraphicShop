@@ -1,4 +1,6 @@
  @extends('layouts.admin.master')
+
+ @section('content')
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
      <!-- Content Header (Page header) -->
@@ -9,7 +11,7 @@
                      <h1 class="m-0 text-dark">
                          <a class="nav-link drawer" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
                          محصولات
-                         <a class="btn btn-primary float-left text-white py-2 px-4" href="products-add.php">افزودن محصول
+                         <a class="btn btn-primary float-left text-white py-2 px-4" href="{{ route('admin.products.add') }}">افزودن محصول
                              جدید</a>
                      </h1>
                  </div><!-- /.col -->
@@ -65,7 +67,7 @@
                                          <td>میلاد بسحاق</td>
                                          <td>توضیحات</td>
                                          <td>
-                                             <a href="#" class="btn btn-default btn-icons" title="لینک دمو"><i
+                                             <a href="#" class="btn btn-default btn-icons " title="لینک دمو"><i
                                                      class="fa fa-link"></i></a>
                                          </td>
                                          <td>
@@ -209,3 +211,5 @@
      <!-- /.content -->
  </div>
  <!-- /.content-wrapper -->
+
+ @endsection

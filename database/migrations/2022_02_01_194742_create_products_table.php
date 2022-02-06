@@ -19,9 +19,9 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('owner_id');
             $table->string('title');
             $table->text('description');
-            $table->string('thumbnail_url');
-            $table->string('demo_url');
-            $table->string('source_url');
+            $table->string('thumbnail_url')->nullable();
+            $table->string('demo_url')->nullable();
+            $table->string('source_url')->nullable();
             $table->unsignedInteger('price');
             $table->timestamps();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
