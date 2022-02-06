@@ -8,10 +8,10 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Utilities\ImageUploader;
 use Illuminate\Support\Facades\DB;
-
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Products\StoreRequest;
+use Illuminate\Support\Facades\File;
 
+use App\Http\Requests\Admin\Products\StoreRequest;
 
 class ProductsController extends Controller
 {
@@ -23,23 +23,28 @@ class ProductsController extends Controller
 
     public function delete($id)
     {
-        $delProduct = Product::find($id);
-        $result = $delProduct->delete();
+        DB::beginTransaction();
+
+        try {
+            $delProduct = Product::find($id);
+            $result = $delProduct->delete();
+            File::deleteDirectory(public_path('products/' . $id));
+            File::deleteDirectory(storage_path('app/local_storage/products/' . $id));
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back()->with('faild', $th->getMessage());
+        }
+        DB::commit();
         if ($result)
-        return back()->with('success', 'محصول حذف شد');
-    return back()->with('faild', ' خطا در حذف محصول');
+            return back()->with('success', 'محصول حذف شد');
     }
 
     public function store(StoreRequest $request)
     {
+        DB::beginTransaction();
         $requestData = $request->validated();
 
-        // ImageUploader::uploaded($requestData['thumbnail_url'],'');
-        // ImageUploader::uploaded($requestData['demo_url'],'');
-        // ImageUploader::uploaded($requestData['source_url'],'');
-
         $users = User::where('email', 'zakaria@gmail.com')->first();
-        // DB::beginTransaction();
         $addProducts = Product::create(
             [
                 'title' => $requestData['title'],
@@ -49,8 +54,9 @@ class ProductsController extends Controller
                 'owner_id' => $users->id
             ]
         );
+        DB::commit();
         try {
-            // DB::commit();
+           
             $basePath = 'products/' . $addProducts->id . '/';
             $imageSourceUrl = $basePath .  'source_url_' . $requestData['source_url']->getClientOriginalName();
 
@@ -74,9 +80,10 @@ class ProductsController extends Controller
             return back()->with('success', 'محصول ایجاد شد');
             
         } catch (\Exception $e) {
-            // DB::rollback();
+            DB::rollback();
             return back()->with('faild', $e->getMessage());
         }
+        
     }
 
 
@@ -95,6 +102,6 @@ class ProductsController extends Controller
     public function downloadSource($id)
     {
         $demoProduct = Product::findOrFail($id);
-        return response()->download(storage_path('app/local_storage/'.$demoProduct->source_url));
+        return response()->download(storage_path('app/local_storage/' . $demoProduct->source_url));
     }
 }
