@@ -12,7 +12,7 @@
                     <div class="col-12">
                         <h1 class="m-0 text-dark">
                             <a class="nav-link drawer" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
-                            محصولات / افزودن
+                             محصولات / بروزرسانی <span class="text-danger">{{ $product->title }}</span>
                             <a class="btn btn-primary float-left text-white py-2 px-4"
                                 href="{{ route('admin.products.all') }}">بازگشت به صفحه محصولات</a>
                         </h1>
@@ -30,16 +30,17 @@
                     <div class="col-md-12">
                         <div class="card card-defualt">
                             <!-- form start -->
-                            <form action="{{ route('admin.products.store') }}" method="post"
+                            <form action="{{ route('admin.products.update', $product->id) }}" method="post"
                                 enctype="multipart/form-data">
                                 @csrf
+                                @method('put')
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>عنوان</label>
                                                 <input type="text" class="form-control" name="title"
-                                                    placeholder="عنوان را وارد کنید">
+                                                    placeholder="عنوان را وارد کنید" value="{{$product->title}}">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -47,7 +48,7 @@
                                                 <label>دسته بندی</label>
                                                 <select class="form-control" name="category_id">
                                                         @foreach ($categories as $category)
-                                                        <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                                        <option value="{{ $category->id }}" {{$category->id == $product->category_id ? 'selected' : ''}}>{{ $category->title }}</option>
                                                         @endforeach
                                                     </select>
                                             </div>
@@ -56,7 +57,7 @@
                                             <div class="form-group">
                                                 <label>قیمت</label>
                                                 <input type="text" class="form-control" name="price"
-                                                    placeholder="قیمت را وارد کنید">
+                                                    placeholder="قیمت را وارد کنید" value="{{$product->price}}">
                                             </div>
                                         </div>
                                     </div>
@@ -66,25 +67,33 @@
                                                 <label>تصویر شاخص</label>
                                                 <input class="form-control" type="file" name="thumbnail_url">
                                             </div>
+                                            
+                                                <img src="/{{ $product->thumbnail_url }}" class="img-thumbnail w-30 h-50 " alt="...">
+                                             
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>تصویر محصول</label>
                                                 <input class="form-control" type="file" name="demo_url">
                                             </div>
+                                           
+                                                <img src="/{{ $product->demo_url }}" class="img-thumbnail w-30 h-50 " alt="...">
+                                             
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>سورس اصلی محصول</label>
                                                 <input class="form-control" type="file" name="source_url">
                                             </div>
+                                            <a href="{{ route('admin.products.download.source', $product->id) }}"
+                                                class="btn btn-default btn-icons text-danger" title="لینک دانلود">دانلود لینک اصلی</a>
                                         </div>
 
                                     </div>
                                     <div class="form-group">
                                         <label>توضیحات</label>
                                         <textarea name="description"
-                                            id="editor">لطفا متن مورد نظر خودتان را وارد کنید</textarea>
+                                            id="editor">{{$product->description}}</textarea>
                                     </div>
                                 </div>
                                 <!-- /.card-body -->

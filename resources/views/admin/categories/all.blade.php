@@ -56,7 +56,7 @@
                                             <th>تاریخ ایجاد</th>
                                             <th>عملیات</th>
                                         </tr>
-                                        @foreach ($allCategories as $category)
+                                        @foreach ($categories as $category)
 
 
                                             <tr>
@@ -86,7 +86,7 @@
                         </div>
                         <!-- /.card -->
                         <div class="d-flex justify-content-center">
-                            {{ $allCategories->links() }}
+                            {{ $categories->links() }}
                         </div>
                     </div>
                 </div>

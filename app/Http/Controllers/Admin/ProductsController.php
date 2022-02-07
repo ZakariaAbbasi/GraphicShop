@@ -5,20 +5,23 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Category;
+use App\Utilities\DiePages;
 use Illuminate\Http\Request;
+use App\Utilities\FileRemover;
 use App\Utilities\ImageUploader;
 use Illuminate\Support\Facades\DB;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
-
 use App\Http\Requests\Admin\Products\StoreRequest;
+use App\Http\Requests\Admin\Products\UpdateRequest;
 
 class ProductsController extends Controller
 {
     public function create()
     {
-        $allCategories = Category::all();
-        return view('admin.products.add', compact('allCategories'));
+        $categories = Category::all();
+        return view('admin.products.add', compact('categories'));
     }
 
     public function delete($id)
@@ -39,58 +42,62 @@ class ProductsController extends Controller
             return back()->with('success', 'محصول حذف شد');
     }
 
+    public function edit($id)
+    {
+        $categories = Category::all();
+        $product = Product::findOrFail($id);
+
+        return view('admin.products.edit', compact('product', 'categories'));
+    }
+
+    public function update(UpdateRequest $request, $id)
+    {
+        $validateData = $request->validated();
+        $product = Product::findOrFail($id);
+        $updateProducts = $product->update(
+            [
+                'title' => $validateData['title'],
+                'category_id' => $validateData['category_id'],
+                'price' => $validateData['price'],
+                'description' => $validateData['description'],
+
+            ]
+        );
+        $this->removeOldImages($product, $validateData);
+        if (!$this->uploadImages($product, $validateData) or !$updateProducts)
+
+            return DiePages::messages('faild', ' بروزرسانی انجام  نشد');
+
+        return DiePages::messages('success', 'محصول بروزسانی شد');
+    }
+
     public function store(StoreRequest $request)
     {
-        DB::beginTransaction();
-        $requestData = $request->validated();
+        // DB::beginTransaction();
+        $validateData = $request->validated();
 
         $users = User::where('email', 'zakaria@gmail.com')->first();
-        $addProducts = Product::create(
+        $products = Product::create(
             [
-                'title' => $requestData['title'],
-                'category_id' => $requestData['category_id'],
-                'price' => $requestData['price'],
-                'description' => $requestData['description'],
+                'title' => $validateData['title'],
+                'category_id' => $validateData['category_id'],
+                'price' => $validateData['price'],
+                'description' => $validateData['description'],
                 'owner_id' => $users->id
             ]
         );
-        DB::commit();
-        try {
-           
-            $basePath = 'products/' . $addProducts->id . '/';
-            $imageSourceUrl = $basePath .  'source_url_' . $requestData['source_url']->getClientOriginalName();
+        // DB::commit();
+        if (!$this->uploadImages($products, $validateData))
+            return DiePages::messages('faild', ' محصول ایجادنشد');
 
-            $images = [
-                'thumbnail_url' => $requestData['thumbnail_url'],
-                'demo_url' => $requestData['demo_url'],
-            ];
-            $imagesPathThumbnailUrlAndDemoUrl = ImageUploader::uploadMany($images, $basePath);
-            ImageUploader::uploaded($requestData['source_url'], $imageSourceUrl);
-
-            $updateProducts = $addProducts->update(
-                [
-                    'thumbnail_url' => $imagesPathThumbnailUrlAndDemoUrl['thumbnail_url'],
-                    'demo_url' => $imagesPathThumbnailUrlAndDemoUrl['demo_url'],
-                    'source_url' => $imageSourceUrl
-                ]
-            );
-            if (!$updateProducts)
-                throw new \Exception('تصاویر آپلود نشدند');
-
-            return back()->with('success', 'محصول ایجاد شد');
-            
-        } catch (\Exception $e) {
-            DB::rollback();
-            return back()->with('faild', $e->getMessage());
-        }
-        
+        return DiePages::messages('success', 'محصول ایجاد شد');
     }
 
 
     public function all()
     {
-        $allProducts = Product::paginate(1);
-        return view('admin.products.all', compact('allProducts'));
+        $products = Product::paginate(1);
+        return view('admin.products.all', compact('products'));
     }
 
     public function downloadDemo($id)
@@ -101,7 +108,63 @@ class ProductsController extends Controller
 
     public function downloadSource($id)
     {
-        $demoProduct = Product::findOrFail($id);
-        return response()->download(storage_path('app/local_storage/' . $demoProduct->source_url));
+        $sourceProduct = Product::findOrFail($id);
+        return response()->download(storage_path('app/local_storage/' . $sourceProduct->source_url));
+    }
+
+    private  function uploadImages($createdProduct, $validateData)
+    {
+        try {
+
+            $basePath = 'products/' . $createdProduct->id . '/';
+            $fullPathImageSource = null;
+            $data = [];
+
+            if (isset($validateData['source_url'])) {
+
+                $fullPathImageSource = $basePath .  'source_url_' . $validateData['source_url']->getClientOriginalName();
+                ImageUploader::uploaded($validateData['source_url'], $fullPathImageSource);
+                $data += ['source_url' => $fullPathImageSource];
+            }
+            if (isset($validateData['thumbnail_url'])) {
+
+                $fullPath = $basePath .  'thumbnail_url_' . $validateData['thumbnail_url']->getClientOriginalName();
+                ImageUploader::uploaded($validateData['thumbnail_url'], $fullPath, 'public_storage');
+                $data += ['thumbnail_url' => $fullPath];
+            }
+
+            if (isset($validateData['demo_url'])) {
+
+                $fullPath = $basePath .  'demo_url_' . $validateData['demo_url']->getClientOriginalName();
+                ImageUploader::uploaded($validateData['demo_url'], $fullPath, 'public_storage');
+                $data += ['demo_url' => $fullPath];
+            }
+
+            $updateProducts = $createdProduct->update($data);
+            if (!$updateProducts)
+
+                throw new \Exception('تصاویر آپلود نشدند');
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    private function removeOldImages($product, $validatedData)
+    {
+        if (isset($validatedData['source_url'])) {
+            $sourcePath = $product->source_url;
+            FileRemover::remove($sourcePath, 'local_storage');
+        }
+
+        if (isset($validatedData['thumbnail_url'])) {
+            $thumbnailPath = $product->thumbnail_url;
+            FileRemover::remove($thumbnailPath);
+        }
+
+        if (isset($validatedData['demo_url'])) {
+            $demoPath = $product->demo_url;
+            FileRemover::remove($demoPath);
+        }
     }
 }

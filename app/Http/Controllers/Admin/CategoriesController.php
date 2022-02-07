@@ -2,39 +2,41 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Category;
+use App\Utilities\DiePages;
+
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Categories\StoreRequest;
 use App\Http\Requests\Admin\Categories\UpdateRequest;
-use App\Models\Category;
-use App\Utilities\DiePages;
-use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
 {
     public function delete($id)
     {
-        $delCategoty = $this->find_category_id($id);
+        $delCategoty = Category::find($id);
         $result = $delCategoty->delete();
         if ($result)
-            return back()->with('success', 'دسته بندی حذف شد');
-        return back()->with('faild', ' خطا در حذف دسته بندی');
+            return DiePages::messages('success', 'دسته بندی حذف شد');
+        return DiePages::messages('faild', ' خطا در حذف دسته بندی');
     }
 
     public function edit($id)
     {
-        $putCategory = $this->find_category_id($id);
+        $categories = Category::find($id);
 
-        return view('admin.categories.edit', compact('putCategory'));
+        return view('admin.categories.edit', compact('categories'));
     }
 
     public function update(UpdateRequest $request, $id)
     {
-        $requestData = $request->validated();
-        $updateCategoty = $this->find_category_id($id);
-        $date  = $updateCategoty->update(
+        $validateData = $request->validated();
+        $categoty = Category::find($id);
+
+        $date  = $categoty->update(
             [
-                'title' => $requestData['title'],
-                'slug' => $requestData['slug'],
+                'title' => $validateData['title'],
+                'slug' => $validateData['slug'],
             ]
         );
         if (!$date)
@@ -46,8 +48,8 @@ class CategoriesController extends Controller
 
     public function all()
     {
-        $allCategories = Category::paginate(3);
-        return view('admin.categories.all', compact('allCategories'));
+        $categories = Category::paginate(3);
+        return view('admin.categories.all', compact('categories'));
     }
 
     public function create()
@@ -57,23 +59,15 @@ class CategoriesController extends Controller
 
     public function store(StoreRequest $request)
     {
-        $requestData = $request->validated();
-        $addCategory = Category::create(
+        $validateData = $request->validated();
+        $categories = Category::create(
             [
-                'title' => $requestData['title'],
-                'slug' => $requestData['slug'],
+                'title' => $validateData['title'],
+                'slug' => $validateData['slug'],
             ]
         );
-        if (!$addCategory)
+        if (!$categories)
             return DiePages::messages('failed', 'دسته بندی ایجاد نشد');
         return DiePages::messages('success', 'دسته بندی  ایجاد شد');
     }
-
-    private  function find_category_id($id)
-    {
-        return Category::find($id);
-    }
-
-
-    
 }

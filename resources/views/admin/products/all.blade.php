@@ -59,7 +59,7 @@
                                              <th>تاریخ ایجاد</th>
                                              <th>عملیات</th>
                                          </tr>
-                                         @foreach ($allProducts as $product)
+                                         @foreach ($products as $product)
 
 
                                              <tr>
@@ -84,7 +84,7 @@
                                                  <td>{{ $product->price }}</td>
                                                  <td>{{ $product->created_at }}</td>
                                                  <td>
-                                                     <a href="#" class="btn btn-default btn-icons"><i
+                                                     <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-default btn-icons"><i
                                                              class="fa fa-edit"></i></a>
                                                      <form action="{{ route('admin.products.delete', $product->id) }}" method="post">
                                                          @csrf
@@ -102,7 +102,7 @@
                          </div>
                          <!-- /.card -->
                          <div class="d-flex justify-content-center">
-                             {{ $allProducts->links() }}
+                             {{ $products->links() }}
 
                          </div>
                      </div>

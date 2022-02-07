@@ -11,7 +11,7 @@
                     <div class="col-12">
                         <h2 class="m-0 text-dark">
                             <a class="nav-link drawer" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
-                            دسته بندی ها / بروزرسانی <span class="text-danger">{{ $putCategory->title }}</span>
+                            دسته بندی ها / بروزرسانی <span class="text-danger">{{ $categories->title }}</span>
                             <a class="btn btn-primary float-left text-white py-2 px-4"
                                 href="{{ route('admin.categories.all') }}">بازگشت به صفحه
                                 دسته بندی ها</a>
@@ -32,10 +32,10 @@
                     <div class="card card-defualt">
                         <!-- form start -->
 
-                        <form action="{{ route('admin.categories.update', $putCategory->id) }}" method='post'>
+                        <form action="{{ route('admin.categories.update', $categories->id) }}" method='post'>
                             @csrf
                             @method('put')
-                            <input type="hidden" name="category_id" value="{{$putCategory->id}}">
+                            <input type="hidden" name="category_id" value="{{$categories->id}}">
 
                             <div class="card-body">
                                 <div class="row">
@@ -43,14 +43,14 @@
                                         <div class="form-group">
                                             <label>نامک</label>
                                             <input type="text" class="form-control" name="slug"
-                                                value="{{ $putCategory->slug }}" placeholder="نامک را وارد کنید">
+                                                value="{{ $categories->slug }}" placeholder="نامک را وارد کنید">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>عنوان</label>
                                             <input type="text" class="form-control" name="title"
-                                                value="{{ $putCategory->title }}" placeholder="عنوان را وارد کنید">
+                                                value="{{ $categories->title }}" placeholder="عنوان را وارد کنید">
                                         </div>
                                     </div>
                                 </div>
