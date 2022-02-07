@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\Admin\CategoriesController;
-use App\Http\Controllers\Admin\ProductsController;
-
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\UsersController;
+
+use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Admin\CategoriesController;
 
 
 
@@ -30,14 +31,23 @@ Route::prefix('admin')->group(function (){
         Route::get('add', 'create')->name('admin.products.add');
         Route::post('', 'store')->name('admin.products.store');
         Route::get('', 'all')->name('admin.products.all');
-        Route::get('', 'all')->name('admin.products.all');
         Route::delete('product/{id}', 'delete')->name('admin.products.delete');
         Route::get('edit/{id}', 'edit')->name('admin.products.edit');
         Route::put('update/{id}', 'update')->name('admin.products.update');
 
         Route::get('download/{id}/demo', 'downloadDemo')->name('admin.products.download.demo');
         Route::get('download/{id}/source', 'downloadSource')->name('admin.products.download.source');
+    });
 
+    Route::prefix('users')
+    ->controller(UsersController::class)->group(function(){
+
+        Route::get('add', 'create')->name('admin.users.add');
+        Route::get('all', 'all')->name('admin.users.all');
+        Route::post('', 'store')->name('admin.users.store');
+        Route::delete('delete/{id}', 'delete')->name('admin.users.delete');
+        Route::get('edit/{id}', 'edit')->name('admin.users.edit');
+        Route::put('update/{id}', 'update')->name('admin.users.update');
 
     });
  

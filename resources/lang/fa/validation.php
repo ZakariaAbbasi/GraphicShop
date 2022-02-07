@@ -141,7 +141,13 @@ return [
         'thumbnail_url' => 'تصویر شاخص',
         'demo_url' => 'تصویرمحصول',
         'source_url' => 'تصویر اصلی محصول',
-        'description' => 'توضیحات'
+        'description' => 'توضیحات',
+        'fullName' => 'نام و نام خانوادگی',
+        'email' => 'ایمیل',
+        'mobile' => 'موبایل',
+        'role' => 'نقش کاربری',
+        'password' => 'رمز عبور',
+        'passwordRepeat' => 'تکرار رمزعبور'
 
     ],
 
