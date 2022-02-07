@@ -3,10 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UsersController;
 
+use App\Http\Controllers\Admin\OrdersController;
+use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\CategoriesController;
-
-
 
 Route::prefix('admin')->group(function (){
 
@@ -50,6 +50,19 @@ Route::prefix('admin')->group(function (){
         Route::put('update/{id}', 'update')->name('admin.users.update');
 
     });
+
+    Route::prefix('orders')
+    ->controller(OrdersController::class)->group(function(){
+        Route::get('all', 'all')->name('admin.orders.all');
+
+    });
+
+    Route::prefix('payments')
+    ->controller(PaymentsController::class)->group(function(){
+        Route::get('all', 'all')->name('admin.payments.all');
+
+    });
+
  
 });
 

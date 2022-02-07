@@ -14,7 +14,8 @@ class CreatePaymantsTable extends Migration
      *شامل تمام تغییرات یا ستون های جدیدی است که به محض اجرا کردن مایگریشین روی دیتابیس اعمال میشود. 
      */
     public function up()
-    {
+    { 
+        
         Schema::create('paymants', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('order_id');
@@ -36,5 +37,6 @@ class CreatePaymantsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('paymants');
+        
     }
 }
