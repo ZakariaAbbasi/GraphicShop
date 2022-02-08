@@ -91,13 +91,13 @@
 
                             <ul>
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04 filter-link-active">
+                                    <a href="{{ route('home.products.index') }}" class="filter-link stext-106 trans-04 filter-link-active">
                                         همه
                                     </a>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
+                                    <a href="{{ route('home.products.tenToHundred') }}" class="filter-link stext-106 trans-04">
                                         ۱۰ الی ۱۰۰ هزار تومان
                                     </a>
                                 </li>
@@ -123,7 +123,7 @@
 
                             <ul>
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
+                                    <a href="{{ route('home.products.index') }}" class="filter-link stext-106 trans-04 ">
                                         پیش فرض
                                     </a>
                                 </li>
@@ -135,19 +135,19 @@
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="{{ route('home.products.filter', ['filter'=> 'orderby', 'action'=> 'newest']) }}" class="filter-link stext-106 trans-04 filter-link-active">
+                                    <a href="{{ route('home.products.filter') }}" class="filter-link stext-106 trans-04 ">
                                         جدیدترین
                                     </a>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
+                                    <a href="{{ route('home.products.lowestPrice') }}" class="filter-link stext-106 trans-04">
                                         قیمت:‌ کم به زیاد
                                     </a>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
+                                    <a href="{{ route('home.products.highestPrice') }}" class="filter-link stext-106 trans-04">
                                         قیمت:‌زیاد به کم
                                     </a>
                                 </li>

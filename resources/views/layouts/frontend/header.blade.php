@@ -130,7 +130,7 @@
     <div class="menu-mobile">
         <ul class="main-menu-m">
             <li>
-                <a href="/">صفحه اصلی</a>
+                <a href="{{ route('home.products.index') }}">صفحه اصلی</a>
             </li>
             <li>
                 <a href="/">تماس با ما</a>

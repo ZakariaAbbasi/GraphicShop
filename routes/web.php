@@ -20,7 +20,12 @@ Route::prefix('')->group(function () {
 
             Route::get('single/{id}', 'single')->name('home.products.single');
             Route::get('search', 'search')->name('home.products.search');
-            Route::get('new',  'filter')->name('home.products.filter');
+
+            # Routes For Filters
+            Route::get('new',  'newest')->name('home.products.filter');
+            Route::get('least/to/most/price',  'lowestPrice')->name('home.products.lowestPrice');
+            Route::get('most/to/least/price',  'highestPrice')->name('home.products.highestPrice');
+            Route::get('ten/to/hundred/price',  'tenToHundred')->name('home.products.tenToHundred');
         });
 });
 
