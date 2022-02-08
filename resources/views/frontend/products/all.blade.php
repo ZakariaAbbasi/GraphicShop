@@ -135,7 +135,7 @@
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04 filter-link-active">
+                                    <a href="{{ route('home.products.filter', ['filter'=> 'orderby', 'action'=> 'newest']) }}" class="filter-link stext-106 trans-04 filter-link-active">
                                         جدیدترین
                                     </a>
                                 </li>

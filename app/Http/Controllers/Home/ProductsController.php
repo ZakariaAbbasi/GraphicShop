@@ -10,9 +10,10 @@ use App\Http\Controllers\Controller;
 class ProductsController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $products = Product::all();
+     
         $categories = Category::all();
         return view('frontend.products.all', compact('products', 'categories'));
     }
@@ -29,7 +30,34 @@ class ProductsController extends Controller
         $validateData = $request->validate(['search' => 'required']);
         $products = Product::query()
             ->where('title', 'LIKE', "%{$validateData['search']}%")->get();
-            $categories = Category::all();
+        $categories = Category::all();
         return view('frontend.products.all', compact('products', 'categories'));
+    }
+
+    public function filter(Request $request)
+    {
+        if (!isset($request->filter, $request->action))
+            return;
+        $products = $this->findFilter($request?->filter, $request?->action);
+        $categories = Category::all();
+        return view('frontend.products.all', compact('products', 'categories'));
+    }
+
+    private  function findFilter(string $className, string $methodName)
+    {
+        $baseNamespace = 'App\\Http\\Controllers\\Filters\\';
+
+        $className = $baseNamespace . (ucfirst($className) . 'Filter');
+
+        if (!class_exists($className)) {
+            return null;
+        }
+
+        $obj = new $className;
+
+        if (!method_exists($obj, $methodName)) {
+            return null;
+        }
+        return $obj->{$methodName}();
     }
 }

@@ -14,11 +14,13 @@ Route::prefix('')->group(function () {
 
     Route::get('', [HomeProductsController::class, 'index'])->name('home.products.index');
 
+
     Route::prefix('products')
         ->controller(HomeProductsController::class)->group(function () {
-            Route::get('', [HomeController::class, 'index']);
+
             Route::get('single/{id}', 'single')->name('home.products.single');
-            Route::get('', 'search')->name('home.products.search');
+            Route::get('search', 'search')->name('home.products.search');
+            Route::get('new',  'filter')->name('home.products.filter');
         });
 });
 

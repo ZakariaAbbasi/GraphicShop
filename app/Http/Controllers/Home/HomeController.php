@@ -8,9 +8,9 @@ use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
-    public function index()
-    {
-        $products= Product::all();
-        return view('frontend.products.all', compact('products'));
-    }
+    // public function index()
+    // {
+    //     $products= Product::all();
+    //     return view('frontend.products.all', compact('products'));
+    // }
 }
