@@ -76,7 +76,7 @@ class ProductsController extends Controller
         // DB::beginTransaction();
         $validateData = $request->validated();
 
-        $users = User::where('email', 'zakaria@gmail.com')->first();
+        $users = User::where('email', 'ali@gmail.com')->first();
         $products = Product::create(
             [
                 'title' => $validateData['title'],
@@ -96,7 +96,7 @@ class ProductsController extends Controller
 
     public function all()
     {
-        $products = Product::paginate(1);
+        $products = Product::paginate(4);
         return view('admin.products.all', compact('products'));
     }
 

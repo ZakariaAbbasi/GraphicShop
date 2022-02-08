@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="rtl">
 <head>
-    <title>سون گرافیک</title>
+    <title> گرافیک</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
@@ -144,12 +144,12 @@
             <button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
                 <img src="/images/icons/icon-close2.png" alt="CLOSE">
             </button>
-
-            <form class="wrap-search-header flex-w p-l-15">
-                <button class="flex-c-m trans-04">
+            
+            <form class="wrap-search-header flex-w p-l-15" action="{{ route('home.products.search') }}" method="get">
+                <button class="flex-c-m trans-04" id="btn-search">
                     <i class="zmdi zmdi-search"></i>
                 </button>
-                <input class="plh3" type="text" name="search" placeholder="متن خود را اینجا بنویسید ...">
+                <input class="plh3"  type="text" name="search" placeholder="متن خود را اینجا بنویسید ...">
             </form>
         </div>
     </div>
@@ -235,3 +235,4 @@
         </div>
     </div>
 </div>
+
