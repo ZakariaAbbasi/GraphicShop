@@ -166,7 +166,7 @@
                             <div class="block2-pic hov-img0">
                                 <img src="/{{ $product->demo_url }}" alt="IMG-PRODUCT">
 
-                                <a href="{{ $product->id }}"
+                                <a href="#"
                                     class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
                                     مشاهده سریع
                                 </a>
@@ -211,6 +211,7 @@
                 </button>
 
                 <div class="row">
+
                     <div class="col-md-6 col-lg-7 p-b-30">
                         <div class="p-l-25 p-r-30 p-lr-0-lg">
                             <div class="wrap-slick3 flex-sb flex-w">
@@ -258,7 +259,7 @@
                     <div class="col-md-6 col-lg-5 p-b-30">
                         <div class="p-l-50 p-t-5 p-lr-0-lg">
                             <h4 class="mtext-105 cl2 js-name-detail p-b-14">
-                                کارت ویزیت مشاور املاک
+                              عنوان محصول
                             </h4>
 
                             <span class="mtext-106 cl2">
@@ -285,7 +286,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div><!--row-->
             </div>
         </div>
     </div>

@@ -78,6 +78,14 @@
                             <p class="text">پرداخت ها</p>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('home.products.index') }}" class="nav-link"  target="_blank">
+                            <i class="nav-icon fa fa-spinner"></i>
+                            <p class="text">نمایش سایت</p>
+                        </a>
+                    </li>
+                    
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

@@ -71,13 +71,16 @@
                 <!-- Menu desktop -->
                 <div class="menu-desktop">
                     <ul class="main-menu">
-
-                        <li class="active-menu">
-                            <a href="/">صفحه اصلی</a>
+                        <li>
+                            <a href="{{ route('home.products.index') }}">صفحه اصلی</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('panel.index') }}">ورود </a>
                         </li>
                         <li>
                             <a href="/">تماس با ما</a>
                         </li>
+
                     </ul>
                 </div>
 
@@ -132,6 +135,11 @@
             <li>
                 <a href="{{ route('home.products.index') }}">صفحه اصلی</a>
             </li>
+            <li>
+                <a href="{{ route('panel.index') }}">ورود </a>
+            </li>
+
+
             <li>
                 <a href="/">تماس با ما</a>
             </li>

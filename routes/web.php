@@ -19,6 +19,7 @@ Route::prefix('')->group(function () {
         ->controller(HomeProductsController::class)->group(function () {
 
             Route::get('single/{id}', 'single')->name('home.products.single');
+            Route::get('Fast/{id}', 'showFastSingle')->name('home.products.showFastSingle');
             Route::get('search', 'search')->name('home.products.search');
 
             # Routes For Filters
