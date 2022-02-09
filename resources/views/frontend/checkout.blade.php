@@ -31,7 +31,7 @@
                                     <th class="column-3">قیمت</th>
                                 </tr>
 
-                                @if ($product != null)
+                                
                                 @foreach ($product as $id => $value)
                                     <tr class="table_row">
                                         <td class="column-1">
@@ -45,9 +45,7 @@
                                         <td class="column-3">{{ $value['price'] }} هزار تومان</td>
                                     </tr>
                                 @endforeach
-                                @else
-                                <p class="header-cart-item-txt p-t-8">سبد خرید شما خالی است </p>
-                                @endif
+                              
 
                             </table>
                         </div>

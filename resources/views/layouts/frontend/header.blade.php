@@ -93,7 +93,7 @@
                         </div>
 
                         <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
-                            data-notify="{{ json_decode(Cookie::get('basket'), true) != null ? count(json_decode(Cookie::get('basket'), true)) : 0 }}">
+                            data-notify="{{ Cookie::get('basket') != null ? count(json_decode(Cookie::get('basket'), true)) : 0 }}">
                             <i class="zmdi zmdi-shopping-cart"></i>
                         </div>
                     </div>
@@ -186,7 +186,7 @@
 
             <div class="header-cart-content flex-w js-pscroll">
                 <ul class="header-cart-wrapitem w-full">
-                    @if (!json_decode(Cookie::get('basket'), true) == null)
+                    @if (!Cookie::get('basket') == null)
                         @foreach (json_decode(Cookie::get('basket'), true) as $id => $value)
 
                             <li class="header-cart-item flex-w flex-t m-b-12">
@@ -217,7 +217,7 @@
 
                 <div class="w-full">
                     <div class="header-cart-total w-full p-tb-40">
-                        @if (json_decode(Cookie::get('basket'), true) != null)
+                        @if (Cookie::get('basket')!= null)
                             جمع کل :{{ array_sum(array_column(json_decode(Cookie::get('basket'), true), 'price')) }}
                             هزار تومان
                         @endif
