@@ -1,0 +1,1 @@
+return back()->with('success', $data);

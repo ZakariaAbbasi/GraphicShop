@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home\HomeController;
 
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Home\BasketController;
 use App\Http\Controllers\Admin\OrdersController;
+use App\Http\Controllers\Home\CheckoutController;
 use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\CategoriesController;
@@ -16,19 +18,33 @@ Route::prefix('')->group(function () {
 
 
     Route::prefix('products')
-        ->controller(HomeProductsController::class)->group(function () {
+        ->group(function () {
+            Route::controller(HomeProductsController::class)->group(function () {
+                Route::get('single/{id}', 'single')->name('home.products.single');
+                Route::get('Fast/{id}', 'showFastSingle')->name('home.products.showFastSingle');
+                Route::get('search', 'search')->name('home.products.search');
 
-            Route::get('single/{id}', 'single')->name('home.products.single');
-            Route::get('Fast/{id}', 'showFastSingle')->name('home.products.showFastSingle');
-            Route::get('search', 'search')->name('home.products.search');
+                # Routes For Filters
+                Route::get('new',  'newest')->name('home.products.filter');
+                Route::get('least/to/most/price',  'lowestPrice')->name('home.products.lowestPrice');
+                Route::get('most/to/least/price',  'highestPrice')->name('home.products.highestPrice');
+                Route::get('ten/to/hundred/price',  'tenToHundred')->name('home.products.tenToHundred');
+            });
 
-            # Routes For Filters
-            Route::get('new',  'newest')->name('home.products.filter');
-            Route::get('least/to/most/price',  'lowestPrice')->name('home.products.lowestPrice');
-            Route::get('most/to/least/price',  'highestPrice')->name('home.products.highestPrice');
-            Route::get('ten/to/hundred/price',  'tenToHundred')->name('home.products.tenToHundred');
+
+            # Routes For Basket
+            Route::controller(BasketController::class)->group(function () {
+                Route::get('add-to-basket/{id}', 'addToBasket')->name('home.basket.add');
+                Route::get('remove-from-basket/{id}', 'removeFromBasket')->name('home.basket.remove');
+            });
+            Route::controller(CheckoutController::class)->group(function(){
+                Route::get('checkout', 'show')->name('home.checkout');
+
+
+            });
         });
 });
+
 
 
 Route::get('panel', function () {
