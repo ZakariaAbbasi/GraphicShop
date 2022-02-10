@@ -9,7 +9,7 @@ use App\Services\Payment\Contracts\VerfiableInterface;
 abstract class AbstractProviderInterface implements PayableInterface, VerfiableInterface
 {
 
-    public function __construct(RequestInterface $request)
+    public function __construct(protected RequestInterface $request)
     {
 
     }

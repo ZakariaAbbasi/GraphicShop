@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\PaymentController;
 
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Home\BasketController;
@@ -11,6 +11,9 @@ use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Home\ProductsController as HomeProductsController;
+
+
+
 
 Route::prefix('')->group(function () {
 
@@ -44,7 +47,6 @@ Route::prefix('')->group(function () {
             });
         });
 });
-
 
 
 Route::get('panel', function () {
@@ -103,4 +105,10 @@ Route::prefix('admin')->group(function () {
         ->controller(PaymentsController::class)->group(function () {
             Route::get('all', 'all')->name('admin.payments.all');
         });
+});
+
+Route::prefix('payments')->group(function(){
+    Route::post('pay',[PaymentController::class, 'pay'])->name('payment.pay');
+    Route::post('callback',[PaymentController::class, 'callback'])->name('payment.callback');
+
 });

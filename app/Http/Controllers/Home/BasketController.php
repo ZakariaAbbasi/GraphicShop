@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Cookie;
 
 class BasketController extends Controller
 {
-    private $minutes = 60;
+    private $minutes = 600;
 
     public function addToBasket($id)
     {

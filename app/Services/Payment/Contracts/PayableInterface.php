@@ -4,6 +4,6 @@ namespace App\Services\Payment\Contracts;
 
 interface  PayableInterface
 {
-    public function Pay();
+    public function pay();
 
 }
