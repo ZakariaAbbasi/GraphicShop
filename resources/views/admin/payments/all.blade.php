@@ -66,7 +66,7 @@
                                                 <span class="badge {{$payment->status== 'paid'? 'bg-success' : 'bg-danger'}}">{{$payment->status== 'paid'? 'موفق': 'ناموفق'}}</span>
 
                                             </td>
-                                            <td>{{$payment->ref_id}}</td>
+                                            <td>{{$payment->ref_code}}</td>
                                         </tr>
                                             
                                         @endforeach

@@ -24,11 +24,7 @@ class ProductsController extends Controller
         return view('frontend.products.single', compact('product', 'similarProducts'));
     }
 
-    public function showFastSingle($id)
-    {
-        $product = Product::findOrFail($id);
-        return view('frontend.products.all', compact('product'));
-    }
+
 
     public function search(Request $request)
     {

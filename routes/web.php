@@ -15,6 +15,7 @@ use App\Http\Controllers\Home\ProductsController as HomeProductsController;
 
 
 
+
 Route::prefix('')->group(function () {
 
     Route::get('', [HomeProductsController::class, 'index'])->name('home.products.index');
@@ -24,7 +25,6 @@ Route::prefix('')->group(function () {
         ->group(function () {
             Route::controller(HomeProductsController::class)->group(function () {
                 Route::get('single/{id}', 'single')->name('home.products.single');
-                Route::get('Fast/{id}', 'showFastSingle')->name('home.products.showFastSingle');
                 Route::get('search', 'search')->name('home.products.search');
 
                 # Routes For Filters
@@ -110,5 +110,6 @@ Route::prefix('admin')->group(function () {
 Route::prefix('payments')->group(function(){
     Route::post('pay',[PaymentController::class, 'pay'])->name('payment.pay');
     Route::post('callback',[PaymentController::class, 'callback'])->name('payment.callback');
+    Route::get('callback/success', [PaymentController::class, 'callbackSuccess'])->name('callback.success');
 
 });

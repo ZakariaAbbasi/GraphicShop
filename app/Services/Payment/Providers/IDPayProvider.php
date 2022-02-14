@@ -3,13 +3,15 @@ namespace App\Services\Payment\Providers;
 
 
 use App\Services\Payment\Contracts\AbstractProviderInterface;
-
+use InvalidArgumentException;
 
 class IDPayProvider extends AbstractProviderInterface 
 {
+  private const PAYMENT_CONFIRMED = 100;
+  
     public function pay()
     {
-      dd($this->request);
+      
         $params = array(
             'order_id' => $this->request->getOrderID(),
             'amount' => $this->request->getAmount(),
@@ -32,13 +34,59 @@ class IDPayProvider extends AbstractProviderInterface
           
           $result = curl_exec($ch);
           curl_close($ch);
+          $result = json_decode($result,true);
           
-          var_dump($result);
+
+          if (isset($result['error_code'])) {
+            throw new InvalidArgumentException($result['error_message']);
+          }
+          return redirect()->away($result['link']);
 
     }
 
     public function verify()
     {
+      
+      $params = array(
+        'id' => $this->request->getId(),
+        'order_id' => $this->request->getOrderID(),
+      );
+      
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, 'https://api.idpay.ir/v1.1/payment/verify');
+      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'X-API-KEY: '.$this->request->getAPIKey().'',
+        'X-SANDBOX: 1',
+      ));
+      
+      $result = curl_exec($ch);
+      curl_close($ch);
+      
+      $result = json_decode($result,true);
+
+      if (isset($result['error_code'])) {
+        return [
+          'status' => false,
+          'statusCode' => $result['error_code'],
+          'msg' => $result['error_message']
+        ];
+      }
+
+      if ($result['status'] == self::PAYMENT_CONFIRMED) {
+        return [
+          'status' => true,
+          'statusCode' => $result['status'],
+          'data' => $result
+        ];
+      }
+      return [
+        'status' => true,
+        'statusCode' => $result['status'],
+        'data' => $result
+      ];
         
     }
 }
